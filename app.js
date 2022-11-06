@@ -22,6 +22,11 @@ app.get("/api/movies/:id", movieHandlers.getMovieById);
 // movie POST part
 app.post("/api/movies", movieHandlers.postMovie);
 
+// movie UPDATE part
+app.put("/api/movies/:id", movieHandlers.updateMovie);
+
+// ------------------------------------------------------------
+
 // users part
 const userHandlers = require("./userHandlers");
 
@@ -30,6 +35,9 @@ app.get("/api/users/:id", userHandlers.getUserById);
 
 // user POST part
 app.post("/api/users", userHandlers.postUser);
+
+// user UPDATE part
+app.put("/api/users/:id", userHandlers.updateUser);
 
 //listen
 app.listen(port, (err) => {
