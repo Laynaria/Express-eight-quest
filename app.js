@@ -25,6 +25,9 @@ app.post("/api/movies", movieHandlers.postMovie);
 // movie UPDATE part
 app.put("/api/movies/:id", movieHandlers.updateMovie);
 
+// movie DELETE part
+app.delete("/api/movies/:id", movieHandlers.deleteMovie);
+
 // ------------------------------------------------------------
 
 // users part
@@ -38,6 +41,9 @@ app.post("/api/users", userHandlers.postUser);
 
 // user UPDATE part
 app.put("/api/users/:id", userHandlers.updateUser);
+
+// user DELETE part
+app.delete("/api/users/:id", userHandlers.deleteUser);
 
 //listen
 app.listen(port, (err) => {
