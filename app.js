@@ -42,7 +42,9 @@ app.get("/api/users", userHandlers.getUsers);
 app.get("/api/users/:id", userHandlers.getUserById);
 
 // user POST part
-app.post("/api/users", validateUser, userHandlers.postUser);
+const { hashPassword } = require("./auth.js");
+
+app.post("/api/users", hashPassword, userHandlers.postUser);
 
 // user UPDATE part
 app.put("/api/users/:id", validateUser, userHandlers.updateUser);
