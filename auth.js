@@ -80,7 +80,7 @@ const compareToken = (req, res, next) => {
   try {
     const requestUserId = req.params.id;
 
-    if (payload.sub == requestUserId) {
+    if (req.payload.sub == requestUserId) {
       next();
     } else {
       throw new Error("User id does not match");
