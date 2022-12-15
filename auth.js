@@ -76,20 +76,25 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-const compareToken = (req, res, next) => {
-  try {
-    const currentPayload = req.payload.sub;
-    console.log(currentPayload);
-    next();
-  } catch (err) {
-    console.error(err);
-    res.sendStatus(403);
-  }
-};
+// const compareToken = (req, res, next) => {
+//   console.log("prout");
+//   // const id = "oskour";
+
+//   // try {
+//   //   const currentPayload = req.payload.sub;
+
+//   //   if (currentPayload === id) {
+//   //     next();
+//   //   }
+//   // } catch (err) {
+//   //   console.error(err);
+//   //   res.sendStatus(403);
+//   // }
+// };
 
 module.exports = {
   hashPassword,
   verifyPassword,
   verifyToken,
-  compareToken,
+  // compareToken,
 };

@@ -14,7 +14,12 @@ const welcome = (req, res) => {
 app.get("/", welcome);
 
 // requires from auth for Password and Route security
-const { hashPassword, verifyPassword, verifyToken } = require("./auth.js");
+const {
+  hashPassword,
+  verifyPassword,
+  verifyToken,
+  // compareToken,
+} = require("./auth.js");
 
 // movies part
 const movieHandlers = require("./movieHandlers");
@@ -60,6 +65,10 @@ app.put("/api/movies/:id", validateMovie, movieHandlers.updateMovie);
 
 // movie DELETE part
 app.delete("/api/movies/:id", movieHandlers.deleteMovie);
+
+// SUPER PROTECTED ROUTES
+
+// app.use(compareToken);
 
 // user UPDATE part
 app.put("/api/users/:id", validateUser, userHandlers.updateUser);
