@@ -18,7 +18,7 @@ const {
   hashPassword,
   verifyPassword,
   verifyToken,
-  // compareToken,
+  compareToken,
 } = require("./auth.js");
 
 // movies part
@@ -68,13 +68,11 @@ app.delete("/api/movies/:id", movieHandlers.deleteMovie);
 
 // SUPER PROTECTED ROUTES
 
-// app.use(compareToken);
-
 // user UPDATE part
-app.put("/api/users/:id", validateUser, userHandlers.updateUser);
+app.put("/api/users/:id", compareToken, validateUser, userHandlers.updateUser);
 
 // user DELETE part
-app.delete("/api/users/:id", userHandlers.deleteUser);
+app.delete("/api/users/:id", compareToken, userHandlers.deleteUser);
 
 //listen
 app.listen(port, (err) => {

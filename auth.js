@@ -76,25 +76,24 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// const compareToken = (req, res, next) => {
-//   console.log("prout");
-//   // const id = "oskour";
+const compareToken = (req, res, next) => {
+  try {
+    const requestUserId = req.params.id;
 
-//   // try {
-//   //   const currentPayload = req.payload.sub;
-
-//   //   if (currentPayload === id) {
-//   //     next();
-//   //   }
-//   // } catch (err) {
-//   //   console.error(err);
-//   //   res.sendStatus(403);
-//   // }
-// };
+    if (payload.sub == requestUserId) {
+      next();
+    } else {
+      throw new Error("User id does not match");
+    }
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(403);
+  }
+};
 
 module.exports = {
   hashPassword,
   verifyPassword,
   verifyToken,
-  // compareToken,
+  compareToken,
 };
