@@ -1,5 +1,7 @@
 const argon2 = require("argon2");
 
+// hash password for ahsing password before registering it
+
 const hashingOptions = {
   type: argon2.argon2id,
   memoryCost: 2 ** 16,
@@ -22,6 +24,72 @@ const hashPassword = (req, res, next) => {
     });
 };
 
+// verify password for login route
+const jwt = require("jsonwebtoken"); // don't forget to import
+require("dotenv").config();
+
+// ...
+
+const verifyPassword = (req, res) => {
+  argon2
+    .verify(req.user.hashedPassword, req.body.password)
+    .then((isVerified) => {
+      if (isVerified) {
+        const payload = { sub: req.user.id };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+          expiresIn: "1h",
+        });
+
+        delete req.user.hashedPassword;
+        res.send({ token, user: req.user });
+      } else {
+        res.sendStatus(401);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
+
+const verifyToken = (req, res, next) => {
+  try {
+    const authorizationHeader = req.get("Authorization");
+
+    if (authorizationHeader == null) {
+      throw new Error("Authorization header is missing");
+    }
+
+    const [type, token] = authorizationHeader.split(" ");
+
+    if (type !== "Bearer") {
+      throw new Error("Authorization header has not the 'Bearer' type");
+    }
+
+    req.payload = jwt.verify(token, process.env.JWT_SECRET);
+
+    next();
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(401);
+  }
+};
+
+const compareToken = (req, res, next) => {
+  try {
+    const currentPayload = req.payload.sub;
+    console.log(currentPayload);
+    next();
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(403);
+  }
+};
+
 module.exports = {
   hashPassword,
+  verifyPassword,
+  verifyToken,
+  compareToken,
 };
